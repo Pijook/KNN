@@ -10,6 +10,23 @@ public class TrainData {
         this.values = values;
     }
 
+    public static TrainData createDataFromString(String line){
+        try{
+            String[] parts = line.split(",");
+            Double[] array = new Double[parts.length - 1];
+
+            for(int i = 0; i < array.length; i++){
+                array[i] = Double.parseDouble(parts[i]);
+            }
+
+            return new TrainData(parts[parts.length - 1], array);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public String getGroup() {
         return group;
     }
