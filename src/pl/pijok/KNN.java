@@ -16,9 +16,16 @@ public class KNN {
     public static void main(String[] args){
         knnFrame = new KNNFrame();
 
-        k = Integer.parseInt(args[0]);
-        trainFilePath = args[1];
-        testFilePath = args[2];
+        try{
+            k = Integer.parseInt(args[0]);
+            trainFilePath = args[1];
+            testFilePath = args[2];
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Invalid number of arguments!");
+        }
+
 
         algorithm = new KNNAlgorithm(trainFilePath, testFilePath, k);
 
