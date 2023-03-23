@@ -4,9 +4,9 @@ import java.awt.*;
 
 public class Bar {
 
-    private String label;
-    private int value;
-    private Color color;
+    private final String label;
+    private final int value;
+    private final Color color;
 
     public Bar(String label, int value, Color color) {
         this.label = label;
