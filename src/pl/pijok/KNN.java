@@ -9,12 +9,52 @@ import java.util.concurrent.atomic.AtomicReference;
 public class KNN {
     private static List<TrainData> trainingData;
     private static List<TrainData> testData;
-    private static int k;
+    private static int k = 3;
     private static String trainFilePath;
     private static String testFilePath;
 
     public static void main(String[] args){
-        k = Integer.parseInt(args[0]);
+        ImageMapper imageMapper = new ImageMapper();
+        HashMap<String, String> images = new HashMap<>();
+        trainingData = new ArrayList<>();
+        testData = new ArrayList<>();
+        images.put("red1.png", "Red");
+        images.put("red2.png", "Red");
+        images.put("red3.png", "Red");
+
+        images.put("blue1.png", "Blue");
+        images.put("blue2.png", "Blue");
+        images.put("blue3.png", "Blue");
+
+        images.forEach((key, value) -> {
+            trainingData.add(imageMapper.mapImageToTrainData(key, value));
+        });
+
+        testData.add(imageMapper.mapImageToTrainData("testRed1.png", "Red"));
+
+        AtomicInteger scanned = new AtomicInteger();
+        AtomicInteger correct = new AtomicInteger();
+        testData.forEach(e -> {
+            List<DataDistance> countedDistance = countDistance(trainingData, e);
+            sort(countedDistance);
+
+            String predicted = findGroup(countedDistance);
+
+            System.out.println(e.getGroup() + " predicted: " + predicted);
+
+            boolean isCorrect = e.getGroup().equalsIgnoreCase(predicted);
+
+            if(isCorrect) {
+                correct.getAndIncrement();
+            }
+            scanned.getAndIncrement();
+        });
+
+        double precision = (double) correct.get() / scanned.get();
+        precision = precision * 100;
+        System.out.println("Precision: " + precision);
+
+        /*k = Integer.parseInt(args[0]);
         trainFilePath = args[1];
         testFilePath = args[2];
 
@@ -50,7 +90,7 @@ public class KNN {
 
         double precision = (double) correct.get() / scanned.get();
         precision = precision * 100;
-        System.out.println("Precision: " + precision);
+        System.out.println("Precision: " + precision);*/
     }
 
     private static void sort(List<DataDistance> toSort){
@@ -69,17 +109,18 @@ public class KNN {
                 finalData.put(data.getGroup(), finalData.get(data.getGroup()) + 1);
             }
         }
-
+        System.out.println(finalData.size());
         AtomicReference<String> finalGroup = new AtomicReference<>("");
         AtomicInteger max = new AtomicInteger(-1);
 
         finalData.forEach((key, value) -> {
             if(value > max.get()) {
+                System.out.println(key + " " + value);
                 finalGroup.set(key);
                 max.set(value);
             }
         });
-
+        System.out.println(finalGroup.get());
         return finalGroup.get();
     }
 

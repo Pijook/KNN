@@ -1,5 +1,7 @@
 package pl.pijok;
 
+import java.util.Arrays;
+
 public class TrainData {
 
     private String group;
