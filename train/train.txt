@@ -1,0 +1,12 @@
+train/red1.png;Red
+train/red2.png;Red
+train/red3.png;Red
+train/red4.png;Red
+train/blue1.png;Blue
+train/blue2.png;Blue
+train/blue3.png;Blue
+train/blue4.png;Blue
+train/yellow1.png;Yellow
+train/yellow2.png;Yellow
+train/yellow3.png;Yellow
+train/yellow4.png;Yellow

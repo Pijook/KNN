@@ -18,17 +18,8 @@ public class KNN {
         HashMap<String, String> images = new HashMap<>();
         trainingData = new ArrayList<>();
         testData = new ArrayList<>();
-        images.put("red1.png", "Red");
-        images.put("red2.png", "Red");
-        images.put("red3.png", "Red");
 
-        images.put("blue1.png", "Blue");
-        images.put("blue2.png", "Blue");
-        images.put("blue3.png", "Blue");
 
-        images.forEach((key, value) -> {
-            trainingData.add(imageMapper.mapImageToTrainData(key, value));
-        });
 
         testData.add(imageMapper.mapImageToTrainData("testRed1.png", "Red"));
 
@@ -53,44 +44,24 @@ public class KNN {
         double precision = (double) correct.get() / scanned.get();
         precision = precision * 100;
         System.out.println("Precision: " + precision);
+    }
 
-        /*k = Integer.parseInt(args[0]);
-        trainFilePath = args[1];
-        testFilePath = args[2];
+    private static List<TrainData> loadData(String txtFile) {
+        ImageMapper mapper = new ImageMapper();
+        List<TrainData> data = new ArrayList<>();
+        try {
+            Scanner scanner = new Scanner(new File(txtFile));
+            while(scanner.hasNext()) {
+                String line = scanner.nextLine();
+                String[] parts = line.split(";");
 
-        trainingData = loadDataFromFile(trainFilePath);
-
-        if(trainingData == null){
-            return;
-        }
-
-        testData = loadDataFromFile(testFilePath);
-
-        if(testData == null){
-            return;
-        }
-
-        AtomicInteger scanned = new AtomicInteger();
-        AtomicInteger correct = new AtomicInteger();
-        testData.forEach(e -> {
-            List<DataDistance> countedDistance = countDistance(trainingData, e);
-            sort(countedDistance);
-
-            String predicted = findGroup(countedDistance);
-
-            System.out.println(Arrays.toString(e.getValues()) + ", " + e.getGroup() + " predicted: " + predicted);
-
-            boolean isCorrect = e.getGroup().equalsIgnoreCase(predicted);
-
-            if(isCorrect) {
-                correct.getAndIncrement();
+                data.add(mapper.mapImageToTrainData(parts[0], parts[1]));
             }
-            scanned.getAndIncrement();
-        });
 
-        double precision = (double) correct.get() / scanned.get();
-        precision = precision * 100;
-        System.out.println("Precision: " + precision);*/
+            return data;
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void sort(List<DataDistance> toSort){
