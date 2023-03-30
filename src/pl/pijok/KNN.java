@@ -14,14 +14,14 @@ public class KNN {
     private static String testFilePath;
 
     public static void main(String[] args){
-        ImageMapper imageMapper = new ImageMapper();
-        HashMap<String, String> images = new HashMap<>();
         trainingData = new ArrayList<>();
         testData = new ArrayList<>();
 
-
-
-        testData.add(imageMapper.mapImageToTrainData("testRed1.png", "Red"));
+        for(int i = 0; i < 50; i++) {
+            trainingData.addAll(loadData("train/train.txt"));
+        }
+        //trainingData = loadData("train/train.txt");
+        testData = loadData("test/test.txt");
 
         AtomicInteger scanned = new AtomicInteger();
         AtomicInteger correct = new AtomicInteger();
@@ -80,18 +80,15 @@ public class KNN {
                 finalData.put(data.getGroup(), finalData.get(data.getGroup()) + 1);
             }
         }
-        System.out.println(finalData.size());
         AtomicReference<String> finalGroup = new AtomicReference<>("");
         AtomicInteger max = new AtomicInteger(-1);
 
         finalData.forEach((key, value) -> {
             if(value > max.get()) {
-                System.out.println(key + " " + value);
                 finalGroup.set(key);
                 max.set(value);
             }
         });
-        System.out.println(finalGroup.get());
         return finalGroup.get();
     }
 

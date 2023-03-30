@@ -1,0 +1,3 @@
+test/yellow1.png;Yellow
+test/red1.png;Red
+test/blue1.png;Blue
